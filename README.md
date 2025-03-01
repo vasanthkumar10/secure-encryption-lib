@@ -1,161 +1,116 @@
-# Secure Encryption Library
+# SecureEncryption Library
 
-## Overview
+## 🚀 Overview
 
-Secure Encryption Library is a TypeScript-based encryption solution designed for banking and financial applications. It provides AES & RSA encryption, automatic RSA key generation.
+SecureEncryption is a TypeScript library that provides robust encryption mechanisms using **AES-256-CBC** and **RSA encryption**. It ensures secure data handling with automatic key management.
 
-## Features
+---
 
-- AES-256 encryption & decryption
-- RSA public/private key encryption & decryption
-- Automatic RSA key generation and secure storage in Redis
-- Key rotation mechanism to enhance security
-- Secure handshake and service verification using SHA-256
-- Built-in Express API endpoints
+## 📦 Installation
 
-## Installation
-
-### Prerequisites
-
-Ensure you have Node.js and npm installed.
-
-### Install the package
+Install the package using npm:
 
 ```sh
 npm install secure-encryption-lib
 ```
 
-## Usage
+or using yarn:
 
-### 1. Import the Library
+```sh
+yarn add secure-encryption-lib
+```
 
-```typescript
+---
+
+## 📌 Usage
+
+### 🔹 Import the Library
+
+```ts
 import { SecureEncryption } from 'secure-encryption-lib'
 ```
 
-### 2. Encrypt & Decrypt Data using AES
+### 🔹 Initialize SecureEncryption
 
-```typescript
-const secretMessage = 'Hello, Secure World!'
-const encryptedData = SecureEncryption.encryptAES(secretMessage)
-console.log('Encrypted:', encryptedData)
-
-const decryptedData = SecureEncryption.decryptAES(encryptedData)
-console.log('Decrypted:', decryptedData)
+```ts
+const secureEncryption = new SecureEncryption()
 ```
 
-### 3. Encrypt & Decrypt Data using RSA
+---
 
-```typescript
-const message = 'Confidential Data'
-const encryptedRSA = SecureEncryption.encryptRSA(message)
+## 🔑 AES Encryption & Decryption
+
+### ✅ Encrypt Data using AES
+
+```ts
+const secretKey = 'your-16-character-long-secret-key' // Must be 16 characters
+const text = 'Hello, Secure World!'
+
+const encryptedText = secureEncryption.encryptAES(text, secretKey)
+console.log('Encrypted:', encryptedText)
+```
+
+### ✅ Decrypt Data using AES
+
+```ts
+const decryptedText = secureEncryption.decryptAES(encryptedText, secretKey)
+console.log('Decrypted:', decryptedText)
+```
+
+---
+
+## 🔐 RSA Encryption & Decryption
+
+### ✅ Encrypt Data using RSA
+
+```ts
+const encryptedRSA = await secureEncryption.encryptRSA('Sensitive Data')
 console.log('RSA Encrypted:', encryptedRSA)
+```
 
-const decryptedRSA = SecureEncryption.decryptRSA(encryptedRSA)
+### ✅ Decrypt Data using RSA
+
+```ts
+const decryptedRSA = await secureEncryption.decryptRSA(encryptedRSA)
 console.log('RSA Decrypted:', decryptedRSA)
 ```
 
-### 4. Handshake Verification
+---
 
-```typescript
-fetch('/handshake', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ serviceId: 'service-123' })
-})
-  .then(res => res.json())
-  .then(console.log)
-```
+## 🛠 Configuration
 
-### 5. Rotate RSA Keys
+SecureEncryption supports optional configurations. You can provide a custom configuration object when initializing:
 
-```typescript
-fetch('/rotate-keys', { method: 'POST' })
-  .then(res => res.json())
-  .then(console.log)
-```
-
-## API Endpoints
-
-### `POST /handshake`
-
-Initiates a handshake and returns a signed timestamp.
-
-**Request:**
-
-```json
-{
-  "serviceId": "your-service-id"
+```ts
+const config = {
+  redisConfig: { host: 'localhost', port: 6379 },
+  tokenExpiry: 3600
 }
+
+const secureEncryption = new SecureEncryption(config)
 ```
 
-**Response:**
+---
 
-```json
-{
-  "timestamp": "1623456789012",
-  "signature": "hashed-signature"
-}
-```
+## 📝 Methods
 
-### `POST /verify`
+| Method                                 | Description                      |
+| -------------------------------------- | -------------------------------- |
+| `encryptAES(text, secretKey)`          | Encrypts text using AES-256-CBC. |
+| `decryptAES(encryptedText, secretKey)` | Decrypts AES-encrypted text.     |
+| `encryptRSA(text)`                     | Encrypts text using RSA.         |
+| `decryptRSA(encryptedText)`            | Decrypts RSA-encrypted text.     |
 
-Verifies a service request using SHA-256 hashing.
+---
 
-**Request:**
+## 🎯 License
 
-```json
-{
-  "serviceId": "your-service-id",
-  "timestamp": "1623456789012",
-  "signature": "hashed-signature"
-}
-```
+This project is licensed under the **MIT License**.
 
-**Response:**
+---
 
-```json
-{
-  "message": "Service verified successfully"
-}
-```
+## 📬 Contact
 
-### `POST /rotate-keys`
-
-Rotates RSA key pairs for enhanced security and stores them in Redis.
-
-**Response:**
-
-```json
-{
-  "message": "RSA keys rotated successfully"
-}
-```
-
-## Configuration
-
-### Environment Variables (`.env` file)
-
-```env
-PORT=3000
-SECRET_KEY=mysecurekey
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=yourpassword
-```
-
-## Testing
-
-Run tests using Jest:
-
-```sh
-npm test
-```
-
-## License
-
-MIT License
-
-## Contributors
-
-- [Vasanthkumar V](https://github.com/)
+- **Author:** Vasanthkumar
+- **GitHub:** [@vasanthkumar10](https://github.com/vasanthkumar10)
+- **Email:** vasizebron10@gmail.com
