@@ -1,6 +1,6 @@
 {
   "name": "secure-encryption-lib",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A TypeScript library for secure encryption using AES & RSA with automatic key rotation.",
   "main": "dist/index.js",
   "module": "dist/index.js",
